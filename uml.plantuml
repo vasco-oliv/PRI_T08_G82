@@ -1,0 +1,25 @@
+@startuml UML
+
+class Author{
+    - name : string <<Not Null>>
+}
+
+class Post{
+    - id : int <<Not Null>>
+    - title : string <<Not Null>>
+    - body : string <<Not Null>>
+    - date : string <<Not Null>>
+    - url : string <<Not Null>>
+    - score : int <<Not Null>>
+    - num_comments : int <<Not Null>>
+    - upvote_ratio : float <<Not Null>>
+}
+
+class SubReddit{
+    - name : string <<Not Null>>
+}
+
+Author "1" -- "*" Post
+Post "*" --* "1" SubReddit
+
+@enduml
