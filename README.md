@@ -14,3 +14,4 @@
 - **IN10**: As a user, I want to be able to sort the results by number of comments, so that I can find the most discussed information.
 - **IN11**: As a user, I want to be able to sort the results by the score, so that I can find the most appreciated information.
 - **IN12**: As a user, I want the search to look for relevant information in the body of the post too, so that I can find the most relevant information.
+- **IN13**: As a user, I want to be able to access the page of a specific post, so that I can read the full post.
