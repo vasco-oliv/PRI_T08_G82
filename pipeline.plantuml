@@ -1,0 +1,26 @@
+@startuml pipeline
+
+
+' Two database elements side by side
+database "adhs.csv" as ADHDCsv {
+}
+database "aspergers.csv" as AspergersCsv {
+}
+database "depression.csv" as DepressionCsv {
+}
+database "ocd.csv" as OCDCsv {
+}
+database "ptsd.csv" as PTSDCsv {
+}
+
+rectangle "Concatenate all CSVs into one dataframe with a new column 'subreddit'" as Concatenate
+
+ADHDCsv -- Concatenate
+AspergersCsv -- Concatenate
+DepressionCsv -- Concatenate
+OCDCsv -- Concatenate
+PTSDCsv -- Concatenate
+
+
+
+@enduml
