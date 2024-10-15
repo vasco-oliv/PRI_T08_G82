@@ -21,6 +21,17 @@ DepressionCsv -- Concatenate
 OCDCsv -- Concatenate
 PTSDCsv -- Concatenate
 
+rectangle "remove entries with '[deleted]' or '[removed]' body" as RemoveDeleted
 
+Concatenate -- RemoveDeleted
+
+database "dataset.csv" as DatasetCSV {
+}
+
+database "dataset.json" as DatasetJSON {
+}
+
+RemoveDeleted -- DatasetCSV
+RemoveDeleted -- DatasetJSON
 
 @enduml
