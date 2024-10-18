@@ -2,7 +2,7 @@
 
 
 ' Two database elements side by side
-database "adhs.csv" as ADHDCsv {
+database "adhd.csv" as ADHDCsv {
 }
 database "aspergers.csv" as AspergersCsv {
 }
@@ -25,13 +25,21 @@ rectangle "remove entries with '[deleted]' or '[removed]' body" as RemoveDeleted
 
 Concatenate -- RemoveDeleted
 
+rectangle "Change the created_utc to creation_date" as ChangeColumn
+
+RemoveDeleted -- ChangeColumn
+
+rectangle "Make creation_date only date and not datetime" as RemoveTime
+
+ChangeColumn -- RemoveTime
+
 database "dataset.csv" as DatasetCSV {
 }
 
 database "dataset.json" as DatasetJSON {
 }
 
-RemoveDeleted -- DatasetCSV
-RemoveDeleted -- DatasetJSON
+RemoveTime -- DatasetCSV
+RemoveTime -- DatasetJSON
 
 @enduml
