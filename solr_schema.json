@@ -1,29 +1,5 @@
 {
-    "schema": {
-      "name": "psyche_seek",
-      "version": 1.0,
-      "uniqueKey": "id",
-      "fieldTypes": [
-        {
-          "name": "string",
-          "class": "solr.StrField",
-          "sortMissingLast": true
-        },
-        {
-          "name": "text_general",
-          "class": "solr.TextField",
-          "positionIncrementGap": 100,
-          "analyzer": {
-            "tokenizer": {
-              "class": "solr.StandardTokenizerFactory"
-            },
-            "filters": [
-              {
-                "class": "solr.LowerCaseFilterFactory"
-              }
-            ]
-          }
-        },
+      "add-field-type": [
         {
           "name": "date",
           "class": "solr.TrieDateField",
@@ -43,14 +19,7 @@
           "positionIncrementGap": 0
         }
       ],
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "indexed": true,
-          "stored": true,
-          "required": true
-        },
+      "add-field": [
         {
           "name": "author",
           "type": "string",
@@ -60,7 +29,7 @@
         },
         {
           "name": "body",
-          "type": "text_general",
+          "type": "string",
           "indexed": true,
           "stored": true,
           "required": true
@@ -96,7 +65,7 @@
         },
         {
           "name": "title",
-          "type": "text_general",
+          "type": "string",
           "indexed": true,
           "stored": true,
             "required": true
@@ -115,17 +84,5 @@
           "stored": true,
             "required": true
         }
-      ],
-      "defaultSearchField": "title",
-      "copyFields": [
-        {
-          "source": "title",
-          "dest": "text"
-        },
-        {
-          "source": "body",
-          "dest": "text"
-        }
       ]
     }
-  }

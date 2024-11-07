@@ -5,7 +5,7 @@
 
 #Schema definition via API
 curl -X POST -H 'Content-type:application/json' \
-    --data-binary '@data/solr_schema.json' \
+    --data-binary '@solr_schema.json' \
     http://localhost:8983/solr/posts/schema
 
 
