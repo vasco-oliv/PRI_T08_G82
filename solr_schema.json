@@ -1,0 +1,131 @@
+{
+    "schema": {
+      "name": "psyche_seek",
+      "version": 1.0,
+      "uniqueKey": "id",
+      "fieldTypes": [
+        {
+          "name": "string",
+          "class": "solr.StrField",
+          "sortMissingLast": true
+        },
+        {
+          "name": "text_general",
+          "class": "solr.TextField",
+          "positionIncrementGap": 100,
+          "analyzer": {
+            "tokenizer": {
+              "class": "solr.StandardTokenizerFactory"
+            },
+            "filters": [
+              {
+                "class": "solr.LowerCaseFilterFactory"
+              }
+            ]
+          }
+        },
+        {
+          "name": "date",
+          "class": "solr.TrieDateField",
+          "precisionStep": 0,
+          "positionIncrementGap": 0
+        },
+        {
+          "name": "int",
+          "class": "solr.TrieIntField",
+          "precisionStep": 0,
+          "positionIncrementGap": 0
+        },
+        {
+          "name": "float",
+          "class": "solr.TrieFloatField",
+          "precisionStep": 0,
+          "positionIncrementGap": 0
+        }
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "indexed": true,
+          "stored": true,
+          "required": true
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "indexed": true,
+          "stored": true,
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "text_general",
+          "indexed": true,
+          "stored": true,
+          "required": true
+          
+        },
+        {
+          "name": "creation_date",
+          "type": "date",
+          "indexed": true,
+          "stored": true,
+          "required": true
+        },
+        {
+          "name": "num_comments",
+          "type": "int",
+          "indexed": true,
+          "stored": true,
+            "required": true
+        },
+        {
+          "name": "score",
+          "type": "int",
+          "indexed": true,
+          "stored": true,
+            "required": true
+        },
+        {
+          "name": "subreddit",
+          "type": "string",
+          "indexed": true,
+          "stored": true,
+            "required": true
+        },
+        {
+          "name": "title",
+          "type": "text_general",
+          "indexed": true,
+          "stored": true,
+            "required": true
+        },
+        {
+          "name": "upvote_ratio",
+          "type": "float",
+          "indexed": true,
+          "stored": true,
+            "required": true
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "indexed": true,
+          "stored": true,
+            "required": true
+        }
+      ],
+      "defaultSearchField": "title",
+      "copyFields": [
+        {
+          "source": "title",
+          "dest": "text"
+        },
+        {
+          "source": "body",
+          "dest": "text"
+        }
+      ]
+    }
+  }

@@ -1,7 +1,7 @@
 @startuml pipeline
 
 
-' Two database elements side by side
+'Two database elements side by side
 database "adhd.csv" as ADHDCsv {
 }
 database "aspergers.csv" as AspergersCsv {
@@ -33,13 +33,17 @@ rectangle "Make creation_date only date and not datetime" as RemoveTime
 
 ChangeColumn -- RemoveTime
 
+rectangle "Characterization of the data" as Characterization
+
+RemoveTime -- Characterization
+
 database "dataset.csv" as DatasetCSV {
 }
 
 database "dataset.json" as DatasetJSON {
 }
 
-RemoveTime -- DatasetCSV
-RemoveTime -- DatasetJSON
+Characterization -- DatasetCSV
+Characterization -- DatasetJSON
 
 @enduml
