@@ -1,6 +1,6 @@
 {
-    "query": "title:(anxiety)^3 OR body:pressure",
-    "fields": "id, score, title, author",
+    "query": "title:anxiety OR body:pressure",
+    "fields": "id, score",
     "params": {
         "defType": "edismax"
     }
