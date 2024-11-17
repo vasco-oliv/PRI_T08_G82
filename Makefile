@@ -6,8 +6,8 @@ help:
 	@echo "Commands:"
 	@echo "down       : stops all running services, removes containers and volumes."
 	@echo "up         : start Docker daemon and Solr."
-	@echo "schema     : update schema using docker/data/schema.json."
-	@echo "populate   : populate Solr using docker/data/data.json."
+	@echo "schema     : update schema"
+	@echo "populate   : populate Solr"
 
 .PHONY: down
 down:
