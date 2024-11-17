@@ -10,3 +10,17 @@ To run the project, you need to have installed docker app. Then you can open it 
 `make schema` - create the schema in Solr.
 `make populate` - populate the Solr with the data.
 ```
+
+## How to query
+
+Query formats are available in the config folder as the query_sysX.json files. To run a query, you can use the following command:
+
+```bash
+`make query QUERY=?` - run the query for the system chosen with default value 1.
+```
+
+If you want to have the results in a file with the TREC format, you can use the following command:
+
+```bash
+`make query_trec QUERY=?` - run the query for the system chosen with default value 1 and save the results in a file.
+```

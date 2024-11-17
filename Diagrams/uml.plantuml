@@ -10,7 +10,7 @@ class Post{
     - body : string <<Not Null>>
     - creation_date : datetime <<Not Null>>
     - url : string <<Not Null>>
-    - score : int <<Not Null>>
+    - post_score : int <<Not Null>>
     - num_comments : int <<Not Null>>
     - upvote_ratio : float <<Not Null>>
 }
