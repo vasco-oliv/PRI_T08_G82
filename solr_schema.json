@@ -17,6 +17,50 @@
           "class": "solr.TrieFloatField",
           "precisionStep": 0,
           "positionIncrementGap": 0
+        },
+        {
+          "name": "postTitle",
+          "class": "solr.TextField",
+          "indexAnalyzer": {
+            "tokenizer": {
+              "class": "solr.StandardTokenizerFactory"
+            },
+            "filters": [
+              {"class": "solr.LowerCaseFilterFactory"},
+              {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true}
+            ]
+          },
+          "queryAnalyzer": {
+            "tokenizer": {
+              "class": "solr.StandardTokenizerFactory"
+            },
+            "filters": [
+              {"class": "solr.LowerCaseFilterFactory"},
+              {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true}
+            ]
+          }
+        },
+        {
+          "name": "postBody",
+          "class": "solr.TextField",
+          "indexAnalyzer": {
+            "tokenizer": {
+              "class": "solr.StandardTokenizerFactory"
+            },
+            "filters": [
+              {"class": "solr.LowerCaseFilterFactory"},
+              {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true}
+            ]
+          },
+          "queryAnalyzer": {
+            "tokenizer": {
+              "class": "solr.StandardTokenizerFactory"
+            },
+            "filters": [
+              {"class": "solr.LowerCaseFilterFactory"},
+              {"class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": true}
+            ]
+          }
         }
       ],
       "add-field": [
@@ -29,7 +73,7 @@
         },
         {
           "name": "body",
-          "type": "string",
+          "type": "text_general",
           "indexed": true,
           "stored": true,
           "required": true
@@ -65,7 +109,7 @@
         },
         {
           "name": "title",
-          "type": "string",
+          "type": "postTitle",
           "indexed": true,
           "stored": true,
             "required": true
