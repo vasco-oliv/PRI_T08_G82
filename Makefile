@@ -11,6 +11,7 @@ help:
 	@echo "query QUERY=?	  : query Solr with query ? (default=1)"
 	@echo "query_trec QUERY=? : query Solr with query ? (default=1) and convert to TREC format"
 	@echo "trec_eval  : download trec_eval source code and compile it."
+	@echo "evaluate QUERY=? : evaluate the results of query ? (default 1) using trec_eval."
 
 .PHONY: down
 down:
@@ -45,3 +46,8 @@ trec_eval:
 	git clone https://github.com/usnistgov/trec_eval.git src/trec_eval
 	cd src/trec_eval && make
 	cd ../..
+
+.PHONY: evaluate
+QUERY ?= 1
+evaluate:
+	src/trec_eval/trec_eval qrels_trec.txt results_sys${QUERY}_trec.txt > evaluation_sys${QUERY}.txt

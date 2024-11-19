@@ -1,3 +1,4 @@
 # ignore folder named "Dataset" and all its content
 Dataset/
+src/
 ```

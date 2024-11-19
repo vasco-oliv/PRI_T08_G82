@@ -1,0 +1,7 @@
+{
+    "query": "title:(i fell anxious)^3 OR body:(i fell anxious)^1.5 OR author:(i fell anxious) OR subreddit:(i fell anxious)^4",
+    "fields": "id, title, subreddit, author, score, body",
+    "params": {
+        "defType": "edismax"
+    }
+}
