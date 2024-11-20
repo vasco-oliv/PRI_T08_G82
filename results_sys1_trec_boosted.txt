@@ -1,0 +1,15 @@
+0 Q0 n8d77r 1 39.272335 run0
+0 Q0 q213rx 2 27.971746 run0
+0 Q0 pu91hs 3 22.53297 run0
+0 Q0 p9zr1b 4 20.524113 run0
+0 Q0 rf22xf 5 19.602364 run0
+0 Q0 nwgpcf 6 19.588827 run0
+0 Q0 rmmwtw 7 19.372477 run0
+0 Q0 qwjnf4 8 18.168854 run0
+0 Q0 p1rvqn 9 16.455757 run0
+0 Q0 phzb9k 10 16.117193 run0
+0 Q0 pgrifh 11 10.9862385 run0
+0 Q0 lpbudk 12 10.942271 run0
+0 Q0 rgbcrc 13 10.856009 run0
+0 Q0 qza8xf 14 10.6692295 run0
+0 Q0 r7kri7 15 9.366192 run0

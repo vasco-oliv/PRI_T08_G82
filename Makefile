@@ -38,6 +38,10 @@ schema_boosted:
 populate:
 	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/dataset.json
 
+.PHONY: populate_small
+populate_small:
+	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/smaller_test_dataset.json
+
 .PHONY: query
 QUERY ?= 1
 query:
@@ -57,5 +61,5 @@ trec_eval:
 .PHONY: evaluate
 QUERY ?= 1
 evaluate:
-	cat config/qrels.txt | ./scripts/qrels2trec.py > qrels_trec.txt
+	cat config/qrels${QUERY}.txt | ./scripts/qrels2trec.py > qrels_trec.txt
 	src/trec_eval/trec_eval qrels_trec.txt results_sys${QUERY}_trec.txt > evaluation_sys${QUERY}.txt

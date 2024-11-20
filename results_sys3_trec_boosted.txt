@@ -1,0 +1,15 @@
+0 Q0 rmmwtw 1 297.5259 run0
+0 Q0 r8hl9b 2 144.74191 run0
+0 Q0 qwyk9n 3 116.30354 run0
+0 Q0 rjfj3g 4 95.96325 run0
+0 Q0 qsufbr 5 94.66159 run0
+0 Q0 r8wljn 6 90.85062 run0
+0 Q0 givdcp 7 85.18228 run0
+0 Q0 r3j9mv 8 83.014015 run0
+0 Q0 qql1oq 9 82.48176 run0
+0 Q0 rjrt3u 10 78.16643 run0
+0 Q0 fdbhyp 11 72.20413 run0
+0 Q0 qp10sa 12 72.12698 run0
+0 Q0 qspsq2 13 70.220116 run0
+0 Q0 qpeh2v 14 69.28255 run0
+0 Q0 qv112j 15 67.18063 run0

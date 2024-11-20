@@ -1,0 +1,15 @@
+0 Q0 qwyk9n 1 4.432857 run0
+0 Q0 givdcp 2 3.7248657 run0
+0 Q0 rjrt3u 3 3.5786176 run0
+0 Q0 qpeh2v 4 3.0152104 run0
+0 Q0 fdbhyp 5 2.8427382 run0
+0 Q0 r20122 6 2.8115654 run0
+0 Q0 rjfj3g 7 2.4359534 run0
+0 Q0 r4pecq 8 2.4359534 run0
+0 Q0 ralneq 9 2.4359534 run0
+0 Q0 rmmwtw 10 2.4359534 run0
+0 Q0 rf22xf 11 2.4359534 run0
+0 Q0 rm628w 12 2.4359534 run0
+0 Q0 qwjnf4 13 2.4359534 run0
+0 Q0 r4lvoz 14 2.4359534 run0
+0 Q0 r8hl9b 15 2.4359534 run0
