@@ -1,5 +1,5 @@
 {
-    "query": "feeling anxious",
+    "query": "\"feeling anxious\"~5 OR feeling~3 OR anxious~4",    
     "fields": "id, title, subreddit, author, score, body",
     "params": {
         "defType": "edismax",

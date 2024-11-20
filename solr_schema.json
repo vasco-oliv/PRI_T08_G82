@@ -30,12 +30,6 @@
             {
               "class": "solr.ASCIIFoldingFilterFactory",
               "preserveOriginal": true
-            },
-            {
-              "class": "solr.SynonymGraphFilterFactory",
-              "synonyms": "synonyms.txt",
-              "expand": true,
-              "ignoreCase": true
             }
           ]
         },
@@ -48,12 +42,6 @@
             {
               "class": "solr.ASCIIFoldingFilterFactory",
               "preserveOriginal": true
-            },
-            {
-              "class": "solr.SynonymGraphFilterFactory",
-              "synonyms": "synonyms.txt",
-              "expand": true,
-              "ignoreCase": true
             }
           ]
         }
@@ -70,12 +58,6 @@
             {
               "class": "solr.ASCIIFoldingFilterFactory",
               "preserveOriginal": true
-            },
-            {
-              "class": "solr.SynonymGraphFilterFactory",
-              "synonyms": "synonyms.txt",
-              "expand": true,
-              "ignoreCase": true
             }
           ]
         },
@@ -88,12 +70,6 @@
             {
               "class": "solr.ASCIIFoldingFilterFactory",
               "preserveOriginal": true
-            },
-            {
-              "class": "solr.SynonymGraphFilterFactory",
-              "synonyms": "synonyms.txt",
-              "expand": true,
-              "ignoreCase": true
             }
           ]
         }
@@ -110,12 +86,6 @@
             {
               "class": "solr.ASCIIFoldingFilterFactory",
               "preserveOriginal": true
-            },
-            {
-              "class": "solr.SynonymGraphFilterFactory",
-              "synonyms": "synonyms.txt",
-              "expand": true,
-              "ignoreCase": true
             }
           ]
         },
@@ -128,12 +98,6 @@
             {
               "class": "solr.ASCIIFoldingFilterFactory",
               "preserveOriginal": true
-            },
-            {
-              "class": "solr.SynonymGraphFilterFactory",
-              "synonyms": "synonyms.txt",
-              "expand": true,
-              "ignoreCase": true
             }
           ]
         }
@@ -150,12 +114,6 @@
           {
             "class": "solr.ASCIIFoldingFilterFactory",
             "preserveOriginal": true
-          },
-          {
-            "class": "solr.SynonymGraphFilterFactory",
-            "synonyms": "synonyms.txt",
-            "expand": true,
-            "ignoreCase": true
           }
         ]
       },
@@ -168,12 +126,6 @@
           {
             "class": "solr.ASCIIFoldingFilterFactory",
             "preserveOriginal": true
-          },
-          {
-            "class": "solr.SynonymGraphFilterFactory",
-            "synonyms": "synonyms.txt",
-            "expand": true,
-            "ignoreCase": true
           }
         ]
       }
