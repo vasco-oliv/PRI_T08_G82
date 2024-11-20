@@ -29,7 +29,7 @@ schema_simple:
 	http://localhost:8983/solr/posts/schema
 
 .PHONY: schema_boosted
-schema:
+schema_boosted:
 	curl -X POST -H 'Content-type:application/json' \
     --data-binary '@boosted_schema.json' \
     http://localhost:8983/solr/posts/schema

@@ -34,8 +34,15 @@
               "preserveOriginal": true
             },
             {
+              "class": "solr.PorterStemFilterFactory"
+            },
+            {
               "class": "solr.SynonymFilterFactory",
               "synonyms": "synonyms.txt",
+              "ignoreCase": true
+            },
+            { "class": "solr.StopFilterFactory",
+              "words": "stopwords.txt",
               "ignoreCase": true
             }
           ]
@@ -53,8 +60,15 @@
               "preserveOriginal": true
             },
             {
+              "class": "solr.PorterStemFilterFactory"
+            },
+            {
               "class": "solr.SynonymFilterFactory",
               "synonyms": "synonyms.txt",
+              "ignoreCase": true
+            },
+            { "class": "solr.StopFilterFactory",
+              "words": "stopwords.txt",
               "ignoreCase": true
             }
           ]
