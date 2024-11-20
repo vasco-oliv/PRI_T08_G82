@@ -50,4 +50,5 @@ trec_eval:
 .PHONY: evaluate
 QUERY ?= 1
 evaluate:
+	cat config/qrels.txt | ./scripts/qrels2trec.py > qrels_trec.txt
 	src/trec_eval/trec_eval qrels_trec.txt results_sys${QUERY}_trec.txt > evaluation_sys${QUERY}.txt

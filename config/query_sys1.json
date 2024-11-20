@@ -1,7 +1,8 @@
 {
-    "query": "title:(i fell anxious) OR body:(i fell anxious) OR author:(i fell anxious) OR subreddit:(i fell anxious)",
+    "query": "feeling anxious",
     "fields": "id, title, subreddit, author, score, body",
     "params": {
-        "defType": "edismax"
+        "defType": "edismax",
+        "qf": "title body author"
     }
 }
