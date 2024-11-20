@@ -1,0 +1,50 @@
+{
+    "add-field-type": [
+        {
+            "name": "int",
+            "class": "solr.TrieIntField"
+        },
+        {
+            "name": "float",
+            "class": "solr.TrieFloatField"
+        }
+    ],
+    "add-field": [
+        {
+            "name": "author",
+            "type": "string"
+        },
+        {
+            "name": "body",
+            "type": "text_general"
+        },
+        {
+            "name": "creation_date",
+            "type": "string"
+        },
+        {
+            "name": "num_comments",
+            "type": "int"
+        },
+        {
+            "name": "post_score",
+            "type": "int"
+        },
+        {
+            "name": "subreddit",
+            "type": "string"
+        },
+        {
+            "name": "title",
+            "type": "string"
+        },
+        {
+            "name": "upvote_ratio",
+            "type": "float"
+        },
+        {
+            "name": "url",
+            "type": "string"
+        }
+    ]
+}

@@ -6,7 +6,8 @@ help:
 	@echo "Commands:"
 	@echo "down       : stops all running services, removes containers and volumes."
 	@echo "up         : start Docker daemon and Solr."
-	@echo "schema     : update schema"
+	@echo "schema_simple     : update schema with simple fields."
+	@echo "schema_boosted  : update schema with boosted fields."
 	@echo "populate   : populate Solr"
 	@echo "query QUERY=?	  : query Solr with query ? (default=1)"
 	@echo "query_trec QUERY=? : query Solr with query ? (default=1) and convert to TREC format"
@@ -21,10 +22,16 @@ down:
 up:
 	docker run -p 8983:8983 --name psycheseek -v ${PWD}:/data -d solr:9 solr-precreate posts
 
-.PHONY: schema
+.PHONY: schema_simple
+schema_simple:
+	curl -X POST -H 'Content-type:application/json' \
+	--data-binary '@simple_schema.json' \
+	http://localhost:8983/solr/posts/schema
+
+.PHONY: schema_boosted
 schema:
 	curl -X POST -H 'Content-type:application/json' \
-    --data-binary '@solr_schema.json' \
+    --data-binary '@boosted_schema.json' \
     http://localhost:8983/solr/posts/schema
 
 .PHONY: populate

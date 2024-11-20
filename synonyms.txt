@@ -1,0 +1,20 @@
+anxious, anxiety, anxiousness
+stress, stressed, stressing, stressful
+feel, feeling, feelings, felt, feels
+depressed, depression, depress, depressing
+sad, sadness, sadder, saddest
+happy, happiness, happier, happiest
+angry, anger, angrier, angriest
+tired, tiredness, tire, tires, tiring
+excited, excitement, excite, exciting
+bored, boredom, bore, bores, boring
+shame, shameful, shamed, shaming
+guilt, guilty, guilted, guilting
+fear, fearful, feared, fearing
+hope, hopeful, hoped, hoping
+love, loving, loved, loves
+hate, hating, hated, hates
+help, helping, helped, helps, assistance, assisting, assisted, assist
+hurt, hurting, hurted, hurts
+sick, sickness, sicker, sickest
+suffer, suffering, suffered, suffers

@@ -28,7 +28,7 @@ def fetch_solr_results(query_file, solr_uri, collection):
         sys.exit(1)
 
     # Construct the Solr request URL
-    uri = f"{solr_uri}/{collection}/select?rows=50"
+    uri = f"{solr_uri}/{collection}/select?rows=15"
 
     try:
         # Send the POST request to Solr
