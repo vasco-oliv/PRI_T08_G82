@@ -9,10 +9,10 @@ help:
 	@echo "schema_simple     : update schema with simple fields."
 	@echo "schema_boosted  : update schema with boosted fields."
 	@echo "populate   : populate Solr"
-	@echo "query QUERY=?	  : query Solr with query ? (default=1)"
-	@echo "query_trec QUERY=? : query Solr with query ? (default=1) and convert to TREC format"
+	@echo "query QUERY=?	  : query Solr with query ? (default=2)"
+	@echo "query_trec QUERY=? : query Solr with query ? (default=2) and convert to TREC format"
 	@echo "trec_eval  : download trec_eval source code and compile it."
-	@echo "evaluate QUERY=? : evaluate the results of query ? (default 1) using trec_eval."
+	@echo "evaluate QUERY=? : evaluate the results of query ? (default 2) using trec_eval."
 
 .PHONY: down
 down:
@@ -43,12 +43,12 @@ populate_small:
 	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/smaller_test_dataset.json
 
 .PHONY: query
-QUERY ?= 1
+QUERY ?= 2
 query:
 	./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts
 
 .PHONY: query_trec
-QUERY ?= 1
+QUERY ?= 2
 query_trec:
 	./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts | ./scripts/solr2trec.py > results_sys$(QUERY)_trec.txt
 
@@ -59,7 +59,7 @@ trec_eval:
 	cd ../..
 
 .PHONY: evaluate
-QUERY ?= 1
+QUERY ?= 2
 evaluate:
 	cat config/qrels${QUERY}.txt | ./scripts/qrels2trec.py > qrels_trec.txt
 	src/trec_eval/trec_eval qrels_trec.txt results_sys${QUERY}_trec.txt > evaluation_sys${QUERY}.txt
