@@ -7,7 +7,7 @@ To run the project backend, you need to have installed docker app. Then you can 
 ```bash
 `make up` - start Docker daemon and Solr.
 `make down` - stop Docker daemon and Solr.
-`make schema` - create the schema in Solr.
+`make schema_boosted` - create the schema in Solr.
 `make populate` - populate the Solr with the data.
 ```
 
