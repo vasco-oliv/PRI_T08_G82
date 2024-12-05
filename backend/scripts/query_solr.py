@@ -2,31 +2,25 @@
 
 import argparse
 import json
-import sys
 from pathlib import Path
 
 import requests
+from flask import Flask, request, jsonify, send_from_directory
 
+app = Flask(__name__)
 
-def fetch_solr_results(query_file, solr_uri, collection):
+def fetch_solr_results(query_params, solr_uri, collection):
     """
     Fetch search results from a Solr instance based on the query parameters.
 
     Arguments:
-    - query_file: Path to the JSON file containing Solr query parameters.
+    - query_params: Dictionary containing Solr query parameters.
     - solr_uri: URI of the Solr instance (e.g., http://localhost:8983/solr).
     - collection: Solr collection name from which results will be fetched.
 
     Output:
-    - Prints the JSON search results to STDOUT.
+    - Returns the JSON search results.
     """
-    # Load the query parameters from the JSON file
-    try:
-        query_params = json.load(open(query_file))
-    except FileNotFoundError:
-        print(f"Error: Query file {query_file} not found.")
-        sys.exit(1)
-
     # Construct the Solr request URL
     uri = f"{solr_uri}/{collection}/select?rows=50"
 
@@ -35,13 +29,43 @@ def fetch_solr_results(query_file, solr_uri, collection):
         response = requests.post(uri, json=query_params)
         response.raise_for_status()  # Raise error if the request failed
     except requests.RequestException as e:
-        print(f"Error querying Solr: {e}")
-        sys.exit(1)
+        return {"error": str(e)}
 
-    # Fetch and print the results as JSON
-    results = response.json()
-    print(json.dumps(results, indent=2))
+    # Fetch and return the results as JSON
+    return response.json()
 
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('q')
+    subreddits = request.args.get('subreddits')
+    dates = request.args.get('dates')
+    solr_uri = request.args.get('uri', 'http://localhost:8983/solr')
+    collection = request.args.get('collection', 'posts')
+
+    # Load the query parameters from the JSON file
+    query_params = {
+        "query": query,
+        "fields": "id, title, subreddit, author, score, body, creation_date",
+        "params": {
+            "defType": "edismax",
+            "qf": "title body author subreddit",
+            "fq": []
+        }
+    }
+
+    if subreddits:
+        query_params["params"]["fq"].append(f"subreddit:({subreddits})")
+    
+    if dates:
+        date_filters = [f"creation_date:[{year}-01-01T00:00:00Z TO {year}-12-31T23:59:59Z]" for year in dates.split(' OR ')]
+        query_params["params"]["fq"].append(" OR ".join(date_filters))
+
+    results = fetch_solr_results(query_params, solr_uri, collection)
+    return jsonify(results)
+
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
 
 if __name__ == "__main__":
     # Set up argument parsing for the command-line interface
@@ -53,7 +77,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--query",
         type=Path,
-        required=True,
+        required=False,
         help="Path to the JSON file containing the Solr query parameters.",
     )
     parser.add_argument(
@@ -72,5 +96,12 @@ if __name__ == "__main__":
     # Parse command-line arguments
     args = parser.parse_args()
 
-    # Call the function with parsed arguments
-    fetch_solr_results(args.query, args.uri, args.collection)
+    if args.query:
+        # If a query file is provided, fetch results and print them
+        with open(args.query, 'r') as file:
+            query_params = json.load(file)
+        results = fetch_solr_results(query_params, args.uri, args.collection)
+        print(json.dumps(results, indent=2))
+    else:
+        # Run the Flask app
+        app.run(debug=True)

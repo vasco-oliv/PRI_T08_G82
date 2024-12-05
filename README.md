@@ -26,3 +26,11 @@ If you want to have the results in a file with the TREC format, you can use the 
 ```
 
 ## How to run the frontend
+
+After completing the four "How to run" steps, run the following command inside the "scripts" folder:
+
+```bash
+`python3 query_solr.py`
+```
+
+Finally open the browser and navigate to `http://localhost:5000/`

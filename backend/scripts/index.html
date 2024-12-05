@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsycheSeek</title>
+    <!-- Include Bootswatch Minty CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    .search-container {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .search-results {
+        margin-top: 20px;
+    }
+
+    .result-item {
+        margin-bottom: 20px;
+        border: none; /* Remove border for a cleaner look */
+        border-radius: 10px;
+        background-color: #6fff00; /* Default background */
+        color: #333;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-item:hover {
+        transform: translateY(-5px); /* Subtle lift effect */
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+        background-color: #f0f8ff; /* Light blue hover effect */
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content label {
+        display: block;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+    .dropdown-content label:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* General card styling for the post content */
+    .card-body {
+        padding: 20px;
+        background-color: #d2f3de; /* Subtle gray background */
+        border-radius: 10px; /* Round corners */
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Title styling */
+    .card-body .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333; /* Darker text for the title */
+        margin-bottom: 10px;
+    }
+
+    /* Subtitle styling (author, subreddit, date) */
+    .card-body .card-subtitle {
+        font-size: 1rem;
+        font-style: italic;
+        color: #555; /* Muted text for subtitles */
+        margin-bottom: 15px;
+    }
+
+    /* Body text styling */
+    .card-body .card-text {
+        font-size: 1rem;
+        color: #666; /* Slightly muted text for the body */
+        line-height: 1.6; /* Improve readability with line height */
+    }
+
+    /* Read More link */
+    .card-body .card-link {
+        color: #007bff; /* Bootstrap default link color */
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .card-body .card-link:hover {
+        color: #0056b3; /* Darker blue on hover */
+        text-decoration: none; /* Remove underline on hover for better UX */
+    }
+
+    /* Hover effect on the entire card-body */
+    .card-body:hover {
+        background-color: #e8f4fc; /* Light blue background on hover */
+        transform: translateY(-3px); /* Slight lift on hover */
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 200px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-left {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 220px;
+    }
+
+    /* Custom styles for wider modal */
+    .modal-dialog {
+        max-width: 80%;
+    }
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar sidebar-left">
+        <h5>Filters</h5>
+        <form id="filter-form">
+            <div class="form-group">
+                <h6>Subreddit</h6>
+                <label><input type="checkbox" name="subreddit" value="ptsd" checked> PTSD</label>
+                <label><input type="checkbox" name="subreddit" value="ADHD" checked> ADHD</label>
+                <label><input type="checkbox" name="subreddit" value="anxiety" checked> Anxiety</label>
+                <label><input type="checkbox" name="subreddit" value="depression" checked> Depression</label>
+                <label><input type="checkbox" name="subreddit" value="mentalhealth" checked> Mental Health</label>
+            </div>
+            <div class="form-group">
+                <h6>Date</h6>
+                <label><input type="checkbox" name="date" value="2021" checked> 2021</label>
+                <label><input type="checkbox" name="date" value="2020" checked> 2020</label>
+                <label><input type="checkbox" name="date" value="2019" checked> 2019</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
+    </div>
+
+    <div class="main-content">
+        <div class="search-container">
+            <h1 class="text-center">PsycheSeek</h1>
+            <form id="search-form" class="form-inline justify-content-center">
+                <input type="text" id="query" class="form-control mr-2" placeholder="Enter your search query" required>
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
+            </form>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalLabel">Post Title</h5>
+                </div>
+                <div class="modal-body">
+                    <p id="postModalBody">Post content goes here...</p>
+                    <p id="postModalAuthor"></p>
+                    <p id="postModalSubreddit"></p>
+                    <p id="postModalDate"></p>
+                    <a id="postModalLink" href="#" target="_blank">Original Post</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentResults = [];
+        let currentQuery = '';
+
+        document.getElementById('search-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from reloading the page
+            currentQuery = document.getElementById('query').value;
+            const subreddits = Array.from(
+                document.querySelectorAll('input[name="subreddit"]:checked')
+            ).map(cb => cb.value);
+            const dates = Array.from(
+                document.querySelectorAll('input[name="date"]:checked')
+            ).map(cb => cb.value);
+
+            // Show a loading indicator while fetching
+            showLoadingIndicator();
+
+            // Call fetchResults with the search query and selected filters
+            fetchResults(currentQuery, subreddits, dates);
+        });
+
+        document.getElementById('filter-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from reloading the page
+            const subreddits = Array.from(
+                document.querySelectorAll('input[name="subreddit"]:checked')
+            ).map(cb => cb.value);
+            const dates = Array.from(
+                document.querySelectorAll('input[name="date"]:checked')
+            ).map(cb => cb.value);
+
+            // Re-fetch results with the current query and selected filters
+            fetchResults(currentQuery, subreddits, dates);
+        });
+
+        // Function to fetch results from the backend API
+        function fetchResults(query, subreddits, dates) {
+            const subredditFilter = subreddits.join(' OR ');
+            const dateFilter = dates.join(' OR ');
+            const apiUrl = `/search?q=${encodeURIComponent(query)}&subreddits=${encodeURIComponent(subredditFilter)}&dates=${encodeURIComponent(dateFilter)}`;
+
+            // Simulated fetch request to the API
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    currentResults = data.response.docs;
+                    displayResults(currentResults);
+                })
+                .catch(error => {
+                    console.error('Error fetching results:', error);
+                    showError('An error occurred while fetching results.');
+                });
+        }
+
+        // Function to display results on the frontend
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            // Check if no results were found
+            if (!results || results.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-center">No results found.</p>';
+                return;
+            }
+
+            // Loop through the search results and display each as a post card
+            results.forEach(doc => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item card';
+                resultItem.setAttribute('data-toggle', 'modal');
+                resultItem.setAttribute('data-target', '#postModal');
+                resultItem.setAttribute('data-title', doc.title);
+                resultItem.setAttribute('data-body', doc.body);
+                resultItem.setAttribute('data-author', doc.author);
+                resultItem.setAttribute('data-subreddit', doc.subreddit);
+                resultItem.setAttribute('data-date', new Date(doc.creation_date).toLocaleDateString());
+                resultItem.setAttribute('data-link', `https://www.reddit.com/r/${doc.subreddit}/comments/${doc.id}`);
+
+                const truncatedBody =
+                    doc.body.length > 165 ? doc.body.substring(0, 165) + '...' : doc.body;
+                const date = new Date(doc.creation_date).toLocaleDateString();
+
+                resultItem.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${doc.title}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Author: ${doc.author} | Subreddit: ${doc.subreddit} | Date: ${date}</h6>
+                        <p class="card-text">${truncatedBody}</p>
+                        <a href="https://www.reddit.com/r/${doc.subreddit}/comments/${doc.id}" target="_blank" class="card-link">Read more</a>
+                    </div>
+                `;
+
+                resultsContainer.appendChild(resultItem);
+            });
+
+            // Add event listeners to the result items to show the modal with full post content
+            document.querySelectorAll('.result-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const title = this.getAttribute('data-title');
+                    const body = this.getAttribute('data-body');
+                    const author = this.getAttribute('data-author');
+                    const subreddit = this.getAttribute('data-subreddit');
+                    const date = this.getAttribute('data-date');
+                    const link = this.getAttribute('data-link');
+                    document.getElementById('postModalLabel').innerText = title;
+                    document.getElementById('postModalBody').innerText = body;
+                    document.getElementById('postModalAuthor').innerText = `Author: ${author}`;
+                    document.getElementById('postModalSubreddit').innerText = `Subreddit: ${subreddit}`;
+                    document.getElementById('postModalDate').innerText = `Date: ${date}`;
+                    document.getElementById('postModalLink').href = link;
+                });
+            });
+        }
+
+        // Function to show a loading indicator while results are being fetched
+        function showLoadingIndicator() {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '<p class="text-center">Loading...</p>';
+        }
+
+        // Function to show error messages
+        function showError(message) {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = `<p class="text-center text-danger">${message}</p>`;
+        }
+    </script>
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
