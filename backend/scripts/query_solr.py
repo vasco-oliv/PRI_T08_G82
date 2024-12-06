@@ -39,6 +39,7 @@ def search():
     query = request.args.get('q')
     subreddits = request.args.get('subreddits')
     dates = request.args.get('dates')
+    sort = request.args.get('sort')
     solr_uri = request.args.get('uri', 'http://localhost:8983/solr')
     collection = request.args.get('collection', 'posts')
 
@@ -59,6 +60,12 @@ def search():
     if dates:
         date_filters = [f"creation_date:[{year}-01-01T00:00:00Z TO {year}-12-31T23:59:59Z]" for year in dates.split(' OR ')]
         query_params["params"]["fq"].append(" OR ".join(date_filters))
+
+    if sort:
+        if sort == "date_asc":
+            query_params["params"]["sort"] = "creation_date asc"
+        elif sort == "date_desc":
+            query_params["params"]["sort"] = "creation_date desc"
 
     results = fetch_solr_results(query_params, solr_uri, collection)
     return jsonify(results)

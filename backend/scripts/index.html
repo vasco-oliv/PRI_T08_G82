@@ -133,6 +133,57 @@
         max-width: 80%;
     }
 
+        /* Modal content styling */
+        .modal-content {
+        background-color: #f8f9fa; /* Light gray background */
+        border-radius: 10px; /* Round corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        padding: 20px;
+    }
+
+    .modal-header {
+        border-bottom: none; /* Remove default border */
+    }
+
+    .modal-footer {
+        border-top: none; /* Remove default border */
+    }
+
+    .modal-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333; /* Darker text for the title */
+    }
+
+    .modal-body {
+        font-size: 1rem;
+        color: #666; /* Slightly muted text for the body */
+        line-height: 1.6; /* Improve readability with line height */
+    }
+
+    .modal-body p {
+        margin-bottom: 10px;
+    }
+
+    .modal-footer .btn {
+        background-color: #007bff; /* Bootstrap default button color */
+        color: #fff;
+    }
+
+    .modal-footer .btn:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .main-title {
+        font-size: 5rem;
+        font-weight: bold;
+        color: #00ffcc;
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+
     </style>
 </head>
 <body>
@@ -154,13 +205,21 @@
                 <label><input type="checkbox" name="date" value="2020" checked> 2020</label>
                 <label><input type="checkbox" name="date" value="2019" checked> 2019</label>
             </div>
+            <div class="form-group">
+                <h6>Sort By</h6>
+                <select id="sort" class="form-control">
+                    <option value="">None</option>
+                    <option value="date_asc">Date (oldest to newest)</option>
+                    <option value="date_desc">Date (newest to oldest)</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Apply Filters</button>
         </form>
     </div>
 
     <div class="main-content">
         <div class="search-container">
-            <h1 class="text-center">PsycheSeek</h1>
+            <h1 class="main-title">PsycheSeek</h1>
             <form id="search-form" class="form-inline justify-content-center">
                 <input type="text" id="query" class="form-control mr-2" placeholder="Enter your search query" required>
                 <button type="submit" class="btn btn-primary ml-2">Search</button>
@@ -203,12 +262,13 @@
             const dates = Array.from(
                 document.querySelectorAll('input[name="date"]:checked')
             ).map(cb => cb.value);
+            const sort = document.getElementById('sort').value;
 
             // Show a loading indicator while fetching
             showLoadingIndicator();
 
             // Call fetchResults with the search query and selected filters
-            fetchResults(currentQuery, subreddits, dates);
+            fetchResults(currentQuery, subreddits, dates, sort);
         });
 
         document.getElementById('filter-form').addEventListener('submit', function (event) {
@@ -219,16 +279,17 @@
             const dates = Array.from(
                 document.querySelectorAll('input[name="date"]:checked')
             ).map(cb => cb.value);
+            const sort = document.getElementById('sort').value;
 
             // Re-fetch results with the current query and selected filters
-            fetchResults(currentQuery, subreddits, dates);
+            fetchResults(currentQuery, subreddits, dates, sort);
         });
 
         // Function to fetch results from the backend API
-        function fetchResults(query, subreddits, dates) {
+        function fetchResults(query, subreddits, dates, sort) {
             const subredditFilter = subreddits.join(' OR ');
             const dateFilter = dates.join(' OR ');
-            const apiUrl = `/search?q=${encodeURIComponent(query)}&subreddits=${encodeURIComponent(subredditFilter)}&dates=${encodeURIComponent(dateFilter)}`;
+            const apiUrl = `/search?q=${encodeURIComponent(query)}&subreddits=${encodeURIComponent(subredditFilter)}&dates=${encodeURIComponent(dateFilter)}&sort=${encodeURIComponent(sort)}`;
 
             // Simulated fetch request to the API
             fetch(apiUrl)
