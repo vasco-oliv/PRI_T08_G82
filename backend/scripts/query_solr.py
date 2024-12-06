@@ -46,7 +46,7 @@ def search():
     # Load the query parameters from the JSON file
     query_params = {
         "query": query,
-        "fields": "id, title, subreddit, author, score, body, creation_date",
+        "fields": "id, title, subreddit, author, post_score, body, creation_date",
         "params": {
             "defType": "edismax",
             "qf": "title body author subreddit",
