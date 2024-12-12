@@ -9,6 +9,9 @@ from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 
+# Dictionary to store click counts
+click_counts = {}
+
 def fetch_solr_results(query_params, solr_uri, collection):
     """
     Fetch search results from a Solr instance based on the query parameters.
@@ -34,6 +37,16 @@ def fetch_solr_results(query_params, solr_uri, collection):
     # Fetch and return the results as JSON
     return response.json()
 
+@app.route('/click', methods=['POST'])
+def track_click():
+    post_id = request.json.get('post_id')
+    if post_id:
+        if post_id in click_counts:
+            click_counts[post_id] += 1
+        else:
+            click_counts[post_id] = 1
+    return jsonify({"status": "success", "clicks": click_counts.get(post_id, 0)})
+
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get('q')
@@ -46,7 +59,7 @@ def search():
     # Load the query parameters from the JSON file
     query_params = {
         "query": query,
-        "fields": "id, title, subreddit, author, post_score, body, creation_date",
+        "fields": "id, title, subreddit, author, score, post_score, body, creation_date",
         "params": {
             "defType": "edismax",
             "qf": "title body author subreddit",
@@ -68,6 +81,17 @@ def search():
             query_params["params"]["sort"] = "creation_date desc"
 
     results = fetch_solr_results(query_params, solr_uri, collection)
+
+    # Adjust the order based on the new metric
+    coefficient = 1.3  # Adjust this coefficient as needed
+    for doc in results['response']['docs']:
+        post_id = doc['id']
+        clicks = click_counts.get(post_id, 0)
+        doc['adjusted_score'] = doc['score'] + coefficient * clicks
+
+    # Sort results by the adjusted score
+    results['response']['docs'].sort(key=lambda x: x['adjusted_score'], reverse=True)
+
     return jsonify(results)
 
 @app.route('/')
