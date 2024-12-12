@@ -5,7 +5,9 @@ from sentence_transformers import SentenceTransformer
 # Load the SentenceTransformer model
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-FILE_PATH = '../Dataset/dataset.json'
+FILE_PATH = '../Dataset/smaller_test_dataset'
+SEMANTIC_SUFFIX = '_semantic'
+FILE_TYPE = '.json'
 
 def get_embedding(text):
     # The model.encode() method already returns a list of floats
@@ -13,7 +15,7 @@ def get_embedding(text):
 
 if __name__ == "__main__":
     # Read JSON from STDIN
-    with open(FILE_PATH, 'r') as file:
+    with open(f'{FILE_PATH}{FILE_TYPE}', 'r') as file:
         data = json.load(file)
 
     # Update each document in the JSON data
@@ -28,5 +30,5 @@ if __name__ == "__main__":
         document["vector"] = get_embedding(combined_text)
 
     # Output updated JSON to STDOUT
-    with open(FILE_PATH, 'w') as file:
+    with open(f'{FILE_PATH}{SEMANTIC_SUFFIX}{FILE_TYPE}', 'w') as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
