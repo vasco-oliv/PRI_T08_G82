@@ -1,0 +1,162 @@
+{
+  "add-field-type": [
+    {
+      "name": "date",
+      "class": "solr.TrieDateField",
+      "precisionStep": 0,
+      "positionIncrementGap": 0
+    },
+    {
+      "name": "int",
+      "class": "solr.TrieIntField",
+      "precisionStep": 0,
+      "positionIncrementGap": 0
+    },
+    {
+      "name": "float",
+      "class": "solr.TrieFloatField",
+      "precisionStep": 0,
+      "positionIncrementGap": 0
+    },
+    {
+      "name": "boostedTextField",
+      "class": "solr.TextField",
+      "indexAnalyzer": {
+        "tokenizer": {
+          "class": "solr.NGramTokenizerFactory",
+          "minGramSize": 3,
+          "maxGramSize": 6
+        },
+        "filters": [
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.ASCIIFoldingFilterFactory",
+            "preserveOriginal": true
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.SynonymFilterFactory",
+            "synonyms": "synonyms.txt",
+            "ignoreCase": true
+          },
+          {
+            "class": "solr.StopFilterFactory",
+            "words": "stopwords.txt",
+            "ignoreCase": true
+          }
+        ]
+      },
+      "queryAnalyzer": {
+        "tokenizer": {
+          "class": "solr.NGramTokenizerFactory",
+          "minGramSize": 3,
+          "maxGramSize": 6
+        },
+        "filters": [
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.ASCIIFoldingFilterFactory",
+            "preserveOriginal": true
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.SynonymFilterFactory",
+            "synonyms": "synonyms.txt",
+            "ignoreCase": true
+          },
+          {
+            "class": "solr.StopFilterFactory",
+            "words": "stopwords.txt",
+            "ignoreCase": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "postVector",
+      "class": "solr.DenseVectorField",
+      "vectorDimension": 384,
+      "similarityFunction": "cosine",
+      "knnAlgorithm": "hnsw"
+    }
+  ],
+  "add-field": [
+    {
+      "name": "author",
+      "type": "boostedTextField",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "body",
+      "type": "boostedTextField",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "creation_date",
+      "type": "date",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "num_comments",
+      "type": "int",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "post_score",
+      "type": "int",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "subreddit",
+      "type": "boostedTextField",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "title",
+      "type": "boostedTextField",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "upvote_ratio",
+      "type": "float",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "indexed": true,
+      "stored": true,
+      "required": true
+    },
+    {
+      "name": "vector",
+      "type": "postVector",
+      "indexed": true,
+      "stored": true
+    }
+  ]
+}

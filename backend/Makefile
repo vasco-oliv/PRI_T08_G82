@@ -8,7 +8,10 @@ help:
 	@echo "up         : start Docker daemon and Solr."
 	@echo "schema_simple     : update schema with simple fields."
 	@echo "schema_boosted  : update schema with boosted fields."
+	@echo "schema_semantic : update schema with semantic fields."
 	@echo "populate   : populate Solr"
+	@echo "populate_small   : populate Solr with a smaller dataset"
+	@echo "populate_semantic   : populate Solr with semantic fields"
 	@echo "query QUERY=?	  : query Solr with query ? (default=2)"
 	@echo "query_trec QUERY=? : query Solr with query ? (default=2) and convert to TREC format"
 	@echo "trec_eval  : download trec_eval source code and compile it."
@@ -34,6 +37,12 @@ schema_boosted:
     --data-binary '@boosted_schema.json' \
     http://localhost:8983/solr/posts/schema
 
+.PHONY: schema_semantic
+schema_semantic:
+	curl -X POST -H 'Content-type:application/json' \
+	--data-binary '@semantic_schema.json' \
+	http://localhost:8983/solr/posts/schema
+
 .PHONY: populate
 populate:
 	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/dataset.json
@@ -41,6 +50,14 @@ populate:
 .PHONY: populate_small
 populate_small:
 	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/smaller_test_dataset.json
+
+.PHONY: populate_semantic
+populate_semantic:
+	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/dataset_semantic.json
+
+.PHONY: semantic
+semantic:
+	python3 scripts/get_embeddings.py
 
 .PHONY: query
 QUERY ?= 2
