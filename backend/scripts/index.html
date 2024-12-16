@@ -319,6 +319,10 @@
                 .then(data => {
                     currentResults = data.response.docs;
                     displayResults(currentResults);
+    
+                    // Log the first 10 scores to the console
+                    const first10Scores = currentResults.slice(0, 10).map(doc => doc.score);
+                    console.log('First 10 scores:', first10Scores);
                 })
                 .catch(error => {
                     console.error('Error fetching results:', error);
@@ -343,6 +347,7 @@
                 resultItem.className = 'result-item card';
                 resultItem.setAttribute('data-toggle', 'modal');
                 resultItem.setAttribute('data-target', '#postModal');
+                resultItem.setAttribute('data-id', doc.id); // Add data-id attribute for tracking clicks
                 resultItem.setAttribute('data-title', doc.title);
                 resultItem.setAttribute('data-body', doc.body);
                 resultItem.setAttribute('data-author', doc.author);
@@ -360,6 +365,7 @@
                         <h5 class="card-title">${doc.title}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Author: ${doc.author} | Subreddit: ${doc.subreddit} | Date: ${date} | Score: ${doc.post_score}</h6>
                         <p class="card-text">${truncatedBody}</p>
+                        <a href="https://www.reddit.com/r/${doc.subreddit}/comments/${doc.id}" target="_blank" class="card-link">Read more</a>
                     </div>
                 `;
     
@@ -383,7 +389,28 @@
                     document.getElementById('postModalDate').innerText = `Date: ${date}`;
                     document.getElementById('postModalScore').innerText = `Score: ${score}`;
                     document.getElementById('postModalLink').href = link;
+    
+                    // Track the click
+                    trackClick(this.getAttribute('data-id'));
                 });
+            });
+        }
+    
+        // Function to track clicks on posts
+        function trackClick(postId) {
+            fetch('/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ post_id: postId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Click tracked:', data);
+            })
+            .catch(error => {
+                console.error('Error tracking click:', error);
             });
         }
     

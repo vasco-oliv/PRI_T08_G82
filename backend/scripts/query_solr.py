@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import csv
 import json
 from pathlib import Path
 
@@ -8,6 +9,28 @@ import requests
 from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__)
+
+# Dictionary to store click counts
+click_counts = {}
+
+CLICK_COUNTS_FILE = 'click_counts.csv'
+
+def load_click_counts():
+    """Load click counts from a CSV file."""
+    global click_counts
+    try:
+        with open(CLICK_COUNTS_FILE, mode='r') as infile:
+            reader = csv.reader(infile)
+            click_counts = {rows[0]: int(rows[1]) for rows in reader}
+    except FileNotFoundError:
+        click_counts = {}
+
+def save_click_counts():
+    """Save click counts to a CSV file."""
+    with open(CLICK_COUNTS_FILE, mode='w', newline='') as outfile:
+        writer = csv.writer(outfile)
+        for post_id, count in click_counts.items():
+            writer.writerow([post_id, count])
 
 def fetch_solr_results(query_params, solr_uri, collection):
     """
@@ -34,6 +57,17 @@ def fetch_solr_results(query_params, solr_uri, collection):
     # Fetch and return the results as JSON
     return response.json()
 
+@app.route('/click', methods=['POST'])
+def track_click():
+    post_id = request.json.get('post_id')
+    if post_id:
+        if post_id in click_counts:
+            click_counts[post_id] += 1
+        else:
+            click_counts[post_id] = 1
+        save_click_counts()  # Save click counts after each update
+    return jsonify({"status": "success", "clicks": click_counts.get(post_id, 0)})
+
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get('q')
@@ -46,7 +80,7 @@ def search():
     # Load the query parameters from the JSON file
     query_params = {
         "query": query,
-        "fields": "id, title, subreddit, author, post_score, body, creation_date",
+        "fields": "id, title, subreddit, author, score, post_score, body, creation_date",
         "params": {
             "defType": "edismax",
             "qf": "title body author subreddit",
@@ -68,6 +102,17 @@ def search():
             query_params["params"]["sort"] = "creation_date desc"
 
     results = fetch_solr_results(query_params, solr_uri, collection)
+
+    # Adjust the order based on the new metric
+    coefficient = 1.0  # Adjust this coefficient as needed
+    for doc in results['response']['docs']:
+        post_id = doc['id']
+        clicks = click_counts.get(post_id, 0)
+        doc['adjusted_score'] = doc['score'] + coefficient * clicks
+
+    # Sort results by the adjusted score
+    results['response']['docs'].sort(key=lambda x: x['adjusted_score'], reverse=True)
+
     return jsonify(results)
 
 @app.route('/')
@@ -75,6 +120,9 @@ def index():
     return send_from_directory('.', 'index.html')
 
 if __name__ == "__main__":
+    # Load click counts when the server starts
+    load_click_counts()
+
     # Set up argument parsing for the command-line interface
     parser = argparse.ArgumentParser(
         description="Fetch search results from Solr and output them in JSON format."
