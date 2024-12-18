@@ -69,7 +69,8 @@ def get_semantic_query_params(embedding):
             "qf": "title^3 body^2 author subreddit^4",
             "pf": "title^3 body^2 author subreddit^4",
             "ps": 5,
-            "qs": 5
+            "qs": 5,
+            "fq": [],
         }
     }
 
