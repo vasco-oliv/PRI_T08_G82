@@ -16,7 +16,7 @@ click_counts = {}
 
 CLICK_COUNTS_FILE = 'click_counts.csv'
 ROWS = 50
-USE_SEMANTIC_SEARCH = False
+USE_SEMANTIC_SEARCH = True
 
 def load_click_counts():
     """Load click counts from a CSV file."""
@@ -43,24 +43,21 @@ def text_to_embedding(text):
     embedding_str = "[" + ",".join(map(str, embedding)) + "]"
     return embedding_str
 
-def solr_knn_query(text, solr_uri, collection):
-    url = f"{solr_uri}/{collection}/select"
-    
-    embedding = text_to_embedding(text)
-    
-    data = get_semantic_query_params(embedding)
+def solr_knn_query(query_params, solr_uri, collection):
+    url = f"{solr_uri}/{collection}/select?rows=50"
     
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
     }
     
-    response = requests.post(url, data=data, headers=headers)
+    response = requests.post(url, data=query_params, headers=headers)
     response.raise_for_status()
     return response.json()
 
-def get_semantic_query_params(embedding):
+def get_semantic_query_params(text):
+    embedding = text_to_embedding(text)
     return {
-        "q": f"{{!knn f=vector topK=10}}{embedding}",
+        "q": f"{{!knn f=vector topK=50}}{embedding}",
         "fl": "id, title, subreddit, author, score, post_score, body, creation_date",
         "rows": 50,
         "wt": "json",
@@ -150,7 +147,7 @@ def search():
         elif sort == "date_desc":
             query_params["params"]["sort"] = "creation_date desc"
 
-    results = fetch_solr_results(query_params, solr_uri, collection)
+    results = solr_knn_query(query_params, solr_uri, collection) if USE_SEMANTIC_SEARCH else fetch_solr_results(query_params, solr_uri, collection)
 
     # Adjust the order based on the new metric
     coefficient = 1.0  # Adjust this coefficient as needed

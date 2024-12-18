@@ -18,10 +18,10 @@ def text_to_embedding(text):
     return embedding_str
 
 def solr_knn_query(endpoint, collection, embedding):
-    url = f"{endpoint}/{collection}/select"
+    url = f"{endpoint}/{collection}/select?rows=50"
 
     data = {
-        "q": f"{{!knn f=vector topK=10}}{embedding}",
+        "q": f"{{!knn f=vector topK=50}}{embedding}",
         "fl": "id, title, subreddit, author, score, body",
         "rows": 50,
         "wt": "json",
