@@ -1,5 +1,13 @@
+import json
 import requests
 from sentence_transformers import SentenceTransformer
+import sys
+
+QUERY1 = "I am anxious"
+QUERY2 = ""
+QUERY3 = "depression relationship"
+
+QUERY = [QUERY1, QUERY2, QUERY3]
 
 def text_to_embedding(text):
     model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -14,9 +22,14 @@ def solr_knn_query(endpoint, collection, embedding):
 
     data = {
         "q": f"{{!knn f=vector topK=10}}{embedding}",
-        "fl": "id,title,score",
-        "rows": 10,
-        "wt": "json"
+        "fl": "id, title, subreddit, author, score, body",
+        "rows": 50,
+        "wt": "json",
+        "params": {
+            "defType": "edismax",
+            "qf": "title body author subreddit",
+            "fq": []
+        }
     }
     
     headers = {
@@ -37,23 +50,20 @@ def display_results(results):
         print(f"* {doc.get('id')} {doc.get('title')} [score: {doc.get('score'):.2f}]")
 
 def main():
+    query_num = int(sys.argv[1])
     solr_endpoint = "http://localhost:8983/solr"
     collection = "posts"
     
-    query_text = input("Enter your query: ")
+    query_text = QUERY[query_num-1]
     embedding = text_to_embedding(query_text)
 
     try:
         results = solr_knn_query(solr_endpoint, collection, embedding)
-        print("################################################################################")
-        print("Display Results:")
-        display_results(results)
-        print("################################################################################")
-        print("Results:")
-        print(results)
-        
     except requests.HTTPError as e:
         print(f"Error {e.response.status_code}: {e.response.text}")
+        
+    print(json.dumps(results, indent=2))
+    #display_results(results)
 
 if __name__ == "__main__":
     main()

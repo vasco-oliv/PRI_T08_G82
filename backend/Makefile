@@ -64,10 +64,20 @@ QUERY ?= 2
 query:
 	./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts
 
+.PHONY: query_semantic
+QUERY ?= 1
+query_semantic:
+	python3 ./scripts/query_embedding.py $(QUERY)
+
 .PHONY: query_trec
 QUERY ?= 2
 query_trec:
 	./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts | ./scripts/solr2trec.py > results_sys$(QUERY)_trec.txt
+
+.PHONY: query_semantic_trec
+QUERY ?= 1
+query_semantic_trec:
+	python3 ./scripts/query_embedding.py $(QUERY) | python3 ./scripts/solr2trec.py > config/results_sys$(QUERY)_trec.txt
 
 .PHONY: trec_eval
 trec_eval:
@@ -78,5 +88,5 @@ trec_eval:
 .PHONY: evaluate
 QUERY ?= 2
 evaluate:
-	cat config/qrels${QUERY}.txt | ./scripts/qrels2trec.py > qrels_trec.txt
-	src/trec_eval/trec_eval qrels_trec.txt results_sys${QUERY}_trec.txt > evaluation_sys${QUERY}.txt
+	cat config/qrels${QUERY}.txt | python3 ./scripts/qrels2trec.py > config/qrels_trec.txt
+	../src/trec_eval/trec_eval config/qrels_trec.txt config/results_sys${QUERY}_trec.txt > config/evaluation_sys${QUERY}.txt
