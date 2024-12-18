@@ -34,11 +34,7 @@
             "preserveOriginal": true
           },
           {
-            "class": "solr.PorterStemFilterFactory"
-          },
-          {
-            "class": "solr.ShingleFilterFactory",
-            "maxShingleSize": 3
+            "class": "solr.SnowballPorterFilterFactory"
           },
           {
             "class": "solr.SynonymFilterFactory",
@@ -65,11 +61,7 @@
             "preserveOriginal": true
           },
           {
-            "class": "solr.PorterStemFilterFactory"
-          },
-          {
-            "class": "solr.ShingleFilterFactory",
-            "maxShingleSize": 3
+            "class": "solr.SnowballPorterFilterFactory"
           },
           {
             "class": "solr.SynonymFilterFactory",
@@ -83,13 +75,6 @@
           }
         ]
       }
-    },
-    {
-      "name": "postVector",
-      "class": "solr.DenseVectorField",
-      "vectorDimension": 384,
-      "similarityFunction": "cosine",
-      "knnAlgorithm": "hnsw"
     }
   ],
   "add-field": [
@@ -155,12 +140,6 @@
       "indexed": true,
       "stored": true,
       "required": true
-    },
-    {
-      "name": "vector",
-      "type": "postVector",
-      "indexed": true,
-      "stored": true
     }
   ]
 }

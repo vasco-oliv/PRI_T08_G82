@@ -2891,7 +2891,6 @@ graceful,easy,readable,fluent,flowing,tripping,unaffected,natural,unlabored,mell
 stiffness,euphuism,marinism
 graceless,ungraceful,harsh,abrupt,dry,stiff,cramped,formal,guinde,forced,labored,artificial,mannered,ponderous,awkward,uncourtly,unpolished,euphuistic,barbarous,uncouth,grotesque,rude,crude,halting,polite
 vocality,organ,lungs,bellows,utterance,prolation,exclamation,ejaculation,vociferation,ecphonesis,enunciation,articulation,distinctness,clearness,delivery
-accent,accentuation,emphasis,stress,pronunciation
 orthoepy,cacoepy,ventriloquism,ventriloquist,polyphonism,polyphonist
 breathe,vocalize,prolate,articulate,enunciate,pronounce,accentuate,aspirate,deliver,mouth,ear
 phonetic,oral,ejaculatory,articulate,distinct,stertorous,Phr
@@ -3146,7 +3145,6 @@ midcourse,sailing
 compromise,compromise
 digression,detour,circumbendibus,ambages,loop,winding
 indirect,roundabout,backhanded
-need,wants,necessities,necessaries,stress,exigency,pinch,death
 essentiality,necessity,indispensability,urgency
 demand,for
 claim,command,injunction,mandate,order,precept
@@ -3210,7 +3208,6 @@ overabound,swarm,overflow,overrun,overstock,overlay,overcharge,overdose,overfeed
 choke,cloy,accloy,suffocate,begging
 exuberant,inordinate,superabundant,excessive,overmuch,replete,profuse,lavish,overweening,extravagant,overcharged,supersaturated,drenched,overflowing,down
 gorged,dropsical,turgid,plethoric,unnecessary,needless,supervacaneous,spare,duplicate,supererogatory,expletive,fort
-too,overmuch,extra,seriousness,solemnity,pressure,urgency,stress,death
 notabilia,day
 red,gravamen,cream,salt,core,kernel,heart,nucleus,keynote,keystone,points
 chief,consideration
@@ -3346,7 +3343,7 @@ restoring,restorative,recuperative,sanative,reparative,sanatory,reparatory,curat
 restorable,recoverable,sanable,remediable,retrievable,curable
 medecin,gueris,meme,recidivation,recidivism,recidivity,recrudescence
 help,cure,redress,medicine,medicament,diagnosis,surgery,medicine
-stethoscope,machine
+coping,cope,coped,manage,deal
 antidote,antifebrile,antipoison,counterpoison,antitoxin,antispasmodic,bracer,placebo,helminthagogue,lithagogue,pick,meup,stimulant,tonic,vermifuge,prophylactic,corrective,restorative,febrifuge,alterant,alterative,specific,antiseptic,emetic,analgesic,pain,killer,antitussive,antiinflammatory,antibiotic,antiviral,antifungal,carminative,Nepenthe,Mithridate
 cure,treatment,regimen,remedy
 diagnosis,diagnostics,analysis,urinalysis,biopsy,radiology
@@ -3505,7 +3502,6 @@ precipitately,helter,skelter,hurry,skurry,holus,bolus,slapdash,slap,bang,full,ti
 panic,man
 leisurely,quiet,calm,undisturbed,end
 deliberately,anytime
-effort,strain,tug,pull,stress,throw,stretch,struggle,spell,spurt,spirt,work
 heft,gymnastics,exercise,exercitation,ado,time
 work,toil,travail,swink,drudgery,slavery,fagging,hammering,industry,industriousness,operoseness,operosity
 trouble,pains,duty
@@ -3604,7 +3600,6 @@ obs,Phr
 teaser,rasper,lift
 embarrassment,deadlock,entanglement,awkwardness,delicacy,knot,net,meshes,maze,involvement
 poser,crux,pinches
-quandary,strait,pass,pinch,stress,brunt,crisis,trial,rub,emergency,exigency,scramble
 scrape,hobble,slough,quagmire,hornet,pickle,stew,imbroglio,mess,ado,position
 stand,standstill,deadlock,set
 hitch,curmudgeon
@@ -4915,6 +4910,7 @@ merited,deserved,condign,deserved
 licit,legitimate,legal,unexceptionable,right,fit,fitting,correct,proper,meet,befitting,becoming,seemly,decorous,creditable,gles
 impropriety,illegitimacy
 disfranchisement,forfeiture
+stress,stressed,overstressed,stressfull,stressing,overstress
 usurpation,tort,violation,breach,encroachment,presumption,assumption,seizure,stretch,exaction,imposition,share
 lion,pretender
 encroach,exact,arrogate,usurp,violate
