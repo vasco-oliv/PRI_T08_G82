@@ -1,5 +1,5 @@
 {
-    "query": "coping strategies",
+    "query": "coping with stress",
     "fields": "id, title, subreddit, author, score, body",
     "params": {
         "defType": "edismax",

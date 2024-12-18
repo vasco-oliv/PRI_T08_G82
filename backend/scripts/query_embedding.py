@@ -4,10 +4,13 @@ from sentence_transformers import SentenceTransformer
 import sys
 
 QUERY1 = "I am anxious"
-QUERY2 = ""
+QUERY2 = "I am anxious"
 QUERY3 = "depression relationship"
+QUERY4 = "coping with stress"
 
-QUERY = [QUERY1, QUERY2, QUERY3]
+QUERY = [QUERY1, QUERY2, QUERY3, QUERY4]
+
+ROWS = 50
 
 def text_to_embedding(text):
     model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -18,17 +21,20 @@ def text_to_embedding(text):
     return embedding_str
 
 def solr_knn_query(endpoint, collection, embedding):
-    url = f"{endpoint}/{collection}/select?rows=50"
+    url = f"{endpoint}/{collection}/select?rows={ROWS}"
 
     data = {
-        "q": f"{{!knn f=vector topK=50}}{embedding}",
-        "fl": "id, title, subreddit, author, score, body",
+        "q": f"{{!knn f=vector topK={ROWS}}}{embedding}",
+        "fl": "id, title, subreddit, author, score, post_score, body, creation_date",
         "rows": 50,
         "wt": "json",
         "params": {
             "defType": "edismax",
-            "qf": "title body author subreddit",
-            "fq": []
+            "qf": "title^3 body^2 author subreddit^4",
+            "pf": "title^3 body^2 author subreddit^4",
+            "ps": 5,
+            "qs": 5,
+            "fq": [],
         }
     }
     

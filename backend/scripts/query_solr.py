@@ -4,7 +4,6 @@ import argparse
 import csv
 import json
 from pathlib import Path
-from sentence_transformers import SentenceTransformer
 
 import requests
 from flask import Flask, request, jsonify, send_from_directory
@@ -35,42 +34,6 @@ def save_click_counts():
         for post_id, count in click_counts.items():
             writer.writerow([post_id, count])
 
-def text_to_embedding(text):
-    model = SentenceTransformer('all-MiniLM-L6-v2')
-    embedding = model.encode(text, convert_to_tensor=False).tolist()
-    
-    # Convert the embedding to the expected format
-    embedding_str = "[" + ",".join(map(str, embedding)) + "]"
-    return embedding_str
-
-def solr_knn_query(query_params, solr_uri, collection):
-    url = f"{solr_uri}/{collection}/select?rows=50"
-    
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-    
-    response = requests.post(url, data=query_params, headers=headers)
-    response.raise_for_status()
-    return response.json()
-
-def get_semantic_query_params(text):
-    embedding = text_to_embedding(text)
-    return {
-        "q": f"{{!knn f=vector topK=50}}{embedding}",
-        "fl": "id, title, subreddit, author, score, post_score, body, creation_date",
-        "rows": 50,
-        "wt": "json",
-        "params": {
-            "defType": "edismax",
-            "qf": "title^3 body^2 author subreddit^4",
-            "pf": "title^3 body^2 author subreddit^4",
-            "ps": 5,
-            "qs": 5,
-            "fq": [],
-        }
-    }
-
 def get_query_params(query):
     return {
         "query": query,
@@ -86,7 +49,7 @@ def get_query_params(query):
     }
 
 
-def fetch_solr_results(query_params, solr_uri, collection):
+def fetch_solr_results(query_params, solr_uri, collection, rows=50):
     """
     Fetch search results from a Solr instance based on the query parameters.
 
@@ -99,7 +62,7 @@ def fetch_solr_results(query_params, solr_uri, collection):
     - Returns the JSON search results.
     """
     # Construct the Solr request URL
-    uri = f"{solr_uri}/{collection}/select?rows=50"
+    uri = f"{solr_uri}/{collection}/select?rows={rows}"
 
     try:
         # Send the POST request to Solr
@@ -132,7 +95,7 @@ def search():
     collection = request.args.get('collection', 'posts')
 
     # Load the query parameters from the JSON file
-    query_params = get_semantic_query_params(query) if USE_SEMANTIC_SEARCH else get_query_params(query)
+    query_params = get_query_params(query)
 
     if subreddits:
         query_params["params"]["fq"].append(f"subreddit:({subreddits})")
@@ -147,8 +110,7 @@ def search():
         elif sort == "date_desc":
             query_params["params"]["sort"] = "creation_date desc"
 
-    results = solr_knn_query(query_params, solr_uri, collection) if USE_SEMANTIC_SEARCH else fetch_solr_results(query_params, solr_uri, collection)
-
+    results = fetch_solr_results(query_params, solr_uri, collection, ROWS)
     # Adjust the order based on the new metric
     coefficient = 1.0  # Adjust this coefficient as needed
     for doc in results['response']['docs']:

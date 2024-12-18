@@ -53,7 +53,7 @@ populate_small:
 
 .PHONY: populate_semantic
 populate_semantic:
-	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/dataset_semantic.json
+	docker exec -it psycheseek bin/solr post -c posts ../../data/Dataset/smaller_test_dataset_semantic.json
 
 .PHONY: semantic
 semantic:
@@ -62,7 +62,7 @@ semantic:
 .PHONY: query
 QUERY ?= 2
 query:
-	./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts
+	python3 ./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts
 
 .PHONY: query_semantic
 QUERY ?= 1
@@ -72,7 +72,7 @@ query_semantic:
 .PHONY: query_trec
 QUERY ?= 2
 query_trec:
-	./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts | ./scripts/solr2trec.py > results_sys$(QUERY)_trec.txt
+	python3 ./scripts/query_solr.py --query config/query_sys$(QUERY).json --uri http://localhost:8983/solr --collection posts | python3 ./scripts/solr2trec.py > config/results_sys$(QUERY)_trec.txt
 
 .PHONY: query_semantic_trec
 QUERY ?= 1
