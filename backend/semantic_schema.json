@@ -23,9 +23,7 @@
       "class": "solr.TextField",
       "indexAnalyzer": {
         "tokenizer": {
-          "class": "solr.NGramTokenizerFactory",
-          "minGramSize": 3,
-          "maxGramSize": 6
+          "class": "solr.WhitespaceTokenizerFactory"
         },
         "filters": [
           {
@@ -37,6 +35,10 @@
           },
           {
             "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.ShingleFilterFactory",
+            "maxShingleSize": 3
           },
           {
             "class": "solr.SynonymFilterFactory",
@@ -52,9 +54,7 @@
       },
       "queryAnalyzer": {
         "tokenizer": {
-          "class": "solr.NGramTokenizerFactory",
-          "minGramSize": 3,
-          "maxGramSize": 6
+          "class": "solr.WhitespaceTokenizerFactory"
         },
         "filters": [
           {
@@ -66,6 +66,10 @@
           },
           {
             "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.ShingleFilterFactory",
+            "maxShingleSize": 3
           },
           {
             "class": "solr.SynonymFilterFactory",

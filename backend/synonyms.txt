@@ -5272,3 +5272,72 @@ quire,choir,nave,aisle,transept,vestry,crypt,golgotha,calvary,stall,pew,pulpit,a
 mourner,churchyard
 monastery,priory,abbey,friary,convent,nunnery,cloister
 claustral,cloistered,monastic,monasterial,conventual
+lol, laughing out loud, laugh
+lmao, laughing my ass off
+rofl, rolling on the floor laughing
+brb, be right back
+omg, oh my god, oh my gosh
+idk, i don't know
+tbh, to be honest
+imo, in my opinion
+imho, in my humble opinion
+smh, shaking my head
+btw, by the way
+fyi, for your information
+irl, in real life
+dm, direct message, private message
+afaik, as far as I know
+ftw, for the win
+fml, fuck my life
+nvm, never mind
+np, no problem
+u, you
+r, are
+ur, your, you're
+thx, thanks
+pls, please
+luv, love
+cuz, because
+ya, you, yeah
+wanna, want to
+gonna, going to
+gotta, got to
+lemme, let me
+yo, hey, hi, hello
+sup, what's up, hello
+y'all, you all
+hmu, hit me up, contact me
+idc, i don't care
+nah, no
+yea, yeah, yes
+dope, cool, awesome
+lit, amazing, exciting
+fam, family, friends, close ones
+goat, greatest of all time
+salty, bitter, upset
+fire, amazing, excellent
+noob, newbie, beginner
+bae, babe, baby
+squad, team, group, gang
+xoxo, hugs and kisses
+jk, just kidding
+bff, best friend forever
+wtf, what the f***
+wth, what the heck
+ppl, people
+tldr, too long didn't read
+yolo, you only live once
+gr8, great
+omw, on my way
+ikr, i know right
+lmk, let me know
+ngl, not gonna lie
+oof, ouch, tough
+mfw, my face when
+tfw, that feeling when
+gg, good game
+rekt, wrecked, destroyed
+op, overpowered
+afk, away from keyboard
+npc, non-player character
+ggwp, good game well played
