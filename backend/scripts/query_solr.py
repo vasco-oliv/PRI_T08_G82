@@ -4,6 +4,7 @@ import argparse
 import csv
 import json
 from pathlib import Path
+from sentence_transformers import SentenceTransformer
 
 import requests
 from flask import Flask, request, jsonify, send_from_directory
@@ -14,6 +15,8 @@ app = Flask(__name__)
 click_counts = {}
 
 CLICK_COUNTS_FILE = 'click_counts.csv'
+ROWS = 50
+USE_SEMANTIC_SEARCH = False
 
 def load_click_counts():
     """Load click counts from a CSV file."""
@@ -31,6 +34,54 @@ def save_click_counts():
         writer = csv.writer(outfile)
         for post_id, count in click_counts.items():
             writer.writerow([post_id, count])
+
+def text_to_embedding(text):
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+    embedding = model.encode(text, convert_to_tensor=False).tolist()
+    
+    # Convert the embedding to the expected format
+    embedding_str = "[" + ",".join(map(str, embedding)) + "]"
+    return embedding_str
+
+def solr_knn_query(text, solr_uri, collection):
+    url = f"{solr_uri}/{collection}/select"
+    
+    embedding = text_to_embedding(text)
+    
+    data = get_semantic_query_params(embedding)
+    
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    
+    response = requests.post(url, data=data, headers=headers)
+    response.raise_for_status()
+    return response.json()
+
+def get_semantic_query_params(embedding):
+    return {
+        "q": f"{{!knn f=vector topK=10}}{embedding}",
+        "fl": "id, title, subreddit, author, score, post_score, body, creation_date",
+        "rows": 50,
+        "wt": "json",
+        "params": {
+            "defType": "edismax",
+            "qf": "title body author subreddit",
+            "fq": []
+        }
+    }
+
+def get_query_params(query):
+    return {
+        "query": query,
+        "fields": "id, title, subreddit, author, score, post_score, body, creation_date",
+        "params": {
+            "defType": "edismax",
+            "qf": "title body author subreddit",
+            "fq": []
+        }
+    }
+
 
 def fetch_solr_results(query_params, solr_uri, collection):
     """
@@ -78,15 +129,7 @@ def search():
     collection = request.args.get('collection', 'posts')
 
     # Load the query parameters from the JSON file
-    query_params = {
-        "query": query,
-        "fields": "id, title, subreddit, author, score, post_score, body, creation_date",
-        "params": {
-            "defType": "edismax",
-            "qf": "title body author subreddit",
-            "fq": []
-        }
-    }
+    query_params = get_semantic_query_params(query) if USE_SEMANTIC_SEARCH else get_query_params(query)
 
     if subreddits:
         query_params["params"]["fq"].append(f"subreddit:({subreddits})")
