@@ -23,8 +23,10 @@
       "class": "solr.TextField",
       "indexAnalyzer": {
         "tokenizer": {
-          "class": "solr.WhitespaceTokenizerFactory"
-        },
+            "class": "solr.NGramTokenizerFactory",
+            "minGramSize": 3,
+            "maxGramSize": 6
+          },
         "filters": [
           {
             "class": "solr.LowerCaseFilterFactory"
@@ -50,8 +52,10 @@
       },
       "queryAnalyzer": {
         "tokenizer": {
-          "class": "solr.WhitespaceTokenizerFactory"
-        },
+            "class": "solr.NGramTokenizerFactory",
+            "minGramSize": 3,
+            "maxGramSize": 6
+          },
         "filters": [
           {
             "class": "solr.LowerCaseFilterFactory"

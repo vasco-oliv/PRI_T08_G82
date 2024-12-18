@@ -3400,7 +3400,7 @@ ware,Adj
 premonitory,monitory,cautionary,admonitory,admonitive,sematic
 warned,forewarned,Adv
 ware,fore,Phr
-mind,alarum,larum,tocsin,alerts,war,cry,war
+war, battle
 whoop,foghorn,whistle
 bug,bear,bugaboo
 alarm,wolf
