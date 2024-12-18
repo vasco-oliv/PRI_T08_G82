@@ -66,8 +66,10 @@ def get_semantic_query_params(embedding):
         "wt": "json",
         "params": {
             "defType": "edismax",
-            "qf": "title body author subreddit",
-            "fq": []
+            "qf": "title^3 body^2 author subreddit^4",
+            "pf": "title^3 body^2 author subreddit^4",
+            "ps": 5,
+            "qs": 5
         }
     }
 
@@ -77,8 +79,11 @@ def get_query_params(query):
         "fields": "id, title, subreddit, author, score, post_score, body, creation_date",
         "params": {
             "defType": "edismax",
-            "qf": "title body author subreddit",
-            "fq": []
+            "qf": "title^3 body^2 author subreddit^4",
+            "pf": "title^3 body^2 author subreddit^4",
+            "ps": 5,
+            "qs": 5,
+            "fq": [],
         }
     }
 
